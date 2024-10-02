@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { encrypt, generateKey } from "./utils";
 
 const app = new Hono();
 
@@ -14,8 +15,9 @@ app.post("/", async (c) => {
   if (!text) {
     return c.json({ error: "No text provided" }, 400);
   }
-  const reversedText = text.split("").reverse().join("");
-  return c.json({ reversedText });
+  const randomKey = generateKey();
+  const encryptedText = encrypt(text, randomKey);
+  return c.json({ text: encryptedText, key: randomKey });
 });
 
 // Endpoint to decrypt (reverse the reversed string)

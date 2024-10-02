@@ -24,9 +24,12 @@ export function encrypt(text, key) {
     alphabets = alphabets.toLowerCase();
   }
 
-  return encryptedString;
+  return encryptedString.split("").reverse().join("");
 }
 
-export function generateKey() {}
+// Generates a key from 1 to 100
+export function generateKey() {
+  return Math.ceil(Math.random() * 100);
+}
 
 export function decrypt(text, key) {}
