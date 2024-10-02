@@ -39,14 +39,44 @@ export function generateKey() {
 }
 
 export function decrypt(text, key) {
+  // Step 1: Reverse the encrypted text (since encryption involved reversing)
   const reverseText = text.split("").reverse().join("");
-  const alphabets = "abcdefghijklmnopqrstuvwxyz";
-  const decryptedText = "";
 
+  // Step 2: Alphabets for index lookup
+  const alphabets = "abcdefghijklmnopqrstuvwxyz";
+  let decryptedString = "";
+
+  // Step 3: Decrypt character by character
   for (let char of reverseText) {
-    const index = alphbaets[char];
-    const newIndex = index - key;
-    if (newIndex < 0) {
+    // Check if character is uppercase or non-alphabetical
+    if (!alphabets.includes(char)) {
+      if (alphabets.toUpperCase().includes(char)) {
+        // Convert to uppercase alphabets for decryption
+        const upperAlphabets = alphabets.toUpperCase();
+        const index = upperAlphabets.indexOf(char);
+        let newIndex = (index - key) % 26;
+
+        // Handle negative index using modulus
+        if (newIndex < 0) newIndex += 26;
+
+        const newChar = upperAlphabets[newIndex];
+        decryptedString += newChar;
+      } else {
+        // Non-alphabetic characters remain unchanged
+        decryptedString += char;
+      }
+    } else {
+      // Handle lowercase characters
+      const index = alphabets.indexOf(char);
+      let newIndex = (index - key) % 26;
+
+      // Handle negative index using modulus
+      if (newIndex < 0) newIndex += 26;
+
+      const newChar = alphabets[newIndex];
+      decryptedString += newChar;
     }
   }
+
+  return decryptedString;
 }
