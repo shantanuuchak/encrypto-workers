@@ -10,6 +10,11 @@ app.use("*", (c, next) => {
   return next();
 });
 
+// Respond something on home route
+app.get("/", (c) => {
+  return c.text("API active!");
+});
+
 // Endpoint to reverse the string
 app.post("/", async (c) => {
   const { text } = await c.req.json();
